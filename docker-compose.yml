@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - llmguard_net
+
+  rust-gateway:
+    build:
+      context: ./gateway/rust
+    ports:
+      - "8080:8080"
+    environment:
+      - AI_ENGINE_URL=http://python-ai:8000
+    volumes:
+      - ./gateway/rust:/app
+      - cargo-cache:/usr/local/cargo/registry
+    networks:
+      - llmguard_net
+    depends_on:
+      - python-ai
+
+  python-ai:
+    build:
+      context: ./ai-engine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ai-engine:/app
+      - huggingface-cache:/root/.cache/huggingface
+    networks:
+      - llmguard_net
+
+  database:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=llmguard
+      - POSTGRES_PASSWORD=llmguard_sec
+      - POSTGRES_DB=llmguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - llmguard_net
+
+networks:
+  llmguard_net:
+    driver: bridge
+
+volumes:
+  cargo-cache:
+  huggingface-cache:
+  pgdata:

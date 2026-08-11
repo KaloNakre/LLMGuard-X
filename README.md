@@ -12,6 +12,10 @@ An AI-powered security operations and real-time verification platform for Large 
 - Security Operations Dashboard
 
 ## Architecture
+<div align="center">
+  <img src="assets/architecture_cyber.png" alt="LLMGuard-X Architecture Workflow" width="800"/>
+</div>
+
 - **Frontend**: Next.js Dashboard
 - **Gateway**: Rust (Axum, Tokio)
 - **AI Engine**: Python (FastAPI, Transformers)

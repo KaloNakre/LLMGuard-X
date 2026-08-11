@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/hero_banner.png" alt="LLMGuard-X Hero Banner" width="800"/>
+</div>
+
 # LLMGuard-X Enterprise
 
 An AI-powered security operations and real-time verification platform for Large Language Models. Features an intelligent LLM gateway (Rust), an AI classification engine (Python/Transformers), and a real-time security dashboard (Next.js).
